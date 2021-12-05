@@ -1,11 +1,11 @@
-{
+config = {
     "DEFAULT" : {
         "tmdb_api" : "tmdb_api key",
-
         "imgbb_api" : "imgbb api key",
         "freeimage_api" : "6d207e02198a847aa98d0a2a901485a5",
         "ptpimg_api" : "ptpimg api key",
 
+        # Order of image hosts, and backup image hosts
         "img_host_1": "imgbb",
         "img_host_2": "freeimage.host",
         "img_host_3": "ptpimg",
@@ -15,7 +15,7 @@
         "screens" : "6",
 
 
-
+        # The name of your default torrent client, set in the torrent client sections below
         "default_torrent_client" : "Client1"
 
 
@@ -25,16 +25,19 @@
         "default_trackers" : "BLU, BHD, AITHER",
         "BLU" : {
             "api_key" : "BLU api key",
-            "announce_url" : "https://blutopia.xyz/announce/customannounceurl"
+            "announce_url" : "https://blutopia.xyz/announce/customannounceurl",
+            # "anon" : "False"
         },
         "BHD" : {
             "api_key" : "BHD api key",
             "announce_url" : "https://beyond-hd.me/announce/customannounceurl",
             "draft_default" : "True"
+            # "anon" : "False"
         },
         "AITHER" :{
             "api_key" : "AITHER api key",
             "announce_url" : "https://aither.cc/announce/customannounceurl"
+            # "anon" : "False"
         },
         "THR" : {
             "username" : "username",
@@ -44,11 +47,13 @@
             "pronfo_api_key" : "pronfo api key",
             "pronfo_theme" : "pronfo theme code",
             "pronfo_rapi_id" : "pronfo remote api id"
+            # "anon" : "False"
         }
     },
 
 
     "TORRENT_CLIENTS" : {
+        # Name your torrent clients here, for example, this example is named "Client1"
         "Client1" : {
             "torrent_client" : "qbit",
             "qbit_url" : "http://127.0.0.1",
@@ -66,7 +71,7 @@
             "qbit_user" : "username",
             "qbit_pass" : "password",
 
-            "local_path" : "E:\\downloads\\tv",
+            "local_path" : r"E:\downloads\tv",
             "remote_path" : "/remote/downloads/tv"
         },
 
@@ -92,8 +97,6 @@
             "torrent_client" : "watch",
             "watch_folder" : "/Path/To/Watch/Folder"
         },
-
-        "placeholder" : "This is placeholder text to prevent missing/extra commas"
 
     },
 
