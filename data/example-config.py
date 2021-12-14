@@ -23,7 +23,7 @@ config = {
 
     "TRACKERS" : {
         # Which trackers do you want to upload to?
-        "default_trackers" : "BLU, BHD, AITHER",
+        "default_trackers" : "BLU, BHD, AITHER, STC, THR",
 
         "BLU" : {
             "api_key" : "BLU api key",
@@ -39,6 +39,11 @@ config = {
         "AITHER" :{
             "api_key" : "AITHER api key",
             "announce_url" : "https://aither.cc/announce/customannounceurl"
+            # "anon" : "False"
+        },
+        "STC" :{
+            "api_key" : "STC",
+            "announce_url" : "https://skipthecommercials.xyz/announce/customannounceurl"
             # "anon" : "False"
         },
         "THR" : {
