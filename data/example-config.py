@@ -121,6 +121,7 @@ config = {
                 "BLU": "💙",
                 "BHD": "🎉",
                 "AITHER": "🛫",
+                "STC": "📺",
                 "MANUAL" : "📩",
                 "UPLOAD" : "✅",
                 "CANCEL" : "🚫"
