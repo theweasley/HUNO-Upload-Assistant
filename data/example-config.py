@@ -22,7 +22,9 @@ config = {
     },
 
     "TRACKERS" : {
+        # Which trackers do you want to upload to?
         "default_trackers" : "BLU, BHD, AITHER",
+
         "BLU" : {
             "api_key" : "BLU api key",
             "announce_url" : "https://blutopia.xyz/announce/customannounceurl",
