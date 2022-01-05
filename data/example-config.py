@@ -11,7 +11,6 @@ config = {
         "img_host_3": "ptpimg",
         "img_host_4": "imgbox",
 
-        "anon" : "False",
         "screens" : "6",
 
 
@@ -68,8 +67,9 @@ config = {
             "qbit_user" : "username",
             "qbit_pass" : "password",
 
-            "local_path" : "/LocalPath",
-            "remote_path" : "/RemotePath"
+            # Remote path mapping (docker/etc.)
+            # "local_path" : "/LocalPath",
+            # "remote_path" : "/RemotePath"
         },
         "qbit_sample" : {
             "torrent_client" : "qbit",
@@ -77,17 +77,19 @@ config = {
             "qbit_port" : "8080",
             "qbit_user" : "username",
             "qbit_pass" : "password",
-
-            "local_path" : r"E:\downloads\tv",
-            "remote_path" : "/remote/downloads/tv"
+            
+            # Remote path mapping (docker/etc.)
+            # "local_path" : "E:\\downloads\\tv",
+            # "remote_path" : "/remote/downloads/tv"
         },
 
         "rtorrent_sample" : {
             "torrent_client" : "rtorrent",
             "rtorrent_url" : "https://user:password@server.host.tld:443/username/rutorrent/plugins/httprpc/action.php",
 
-            "local_path" : "/LocalPath",
-            "remote_path" : "/RemotePath"
+            # Remote path mapping (docker/etc.)
+            # "local_path" : "/LocalPath",
+            # "remote_path" : "/RemotePath"
 
         },
         "deluge_sample" : {
@@ -96,9 +98,10 @@ config = {
             "deluge_port" : "8080",
             "deluge_user" : "username",
             "deluge_pass" : "password",
-
-            "local_path" : "/LocalPath",
-            "remote_path" : "/RemotePath"
+            
+            # Remote path mapping (docker/etc.)
+            # "local_path" : "/LocalPath",
+            # "remote_path" : "/RemotePath"
         },
         "watch_sample" : {
             "torrent_client" : "watch",
