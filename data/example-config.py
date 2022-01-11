@@ -83,6 +83,7 @@ config = {
             "qbit_port" : "8080",
             "qbit_user" : "username",
             "qbit_pass" : "password",
+            # "qbit_tag" : "tag"
             
             # Remote path mapping (docker/etc.)
             # "local_path" : "E:\\downloads\\tv",
