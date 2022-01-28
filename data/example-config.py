@@ -45,6 +45,11 @@ config = {
             "announce_url" : "https://skipthecommercials.xyz/announce/customannounceurl"
             # "anon" : "False"
         },
+        "HUNO" : {
+            "api_key" : "HUNO api key",
+            "announce_url" : "https://hawke.uno/announce/customannounceurl",
+            # "anon" : "False"
+        },
         "THR" : {
             "username" : "username",
             "password" : "password",

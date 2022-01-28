@@ -5,3 +5,4 @@ data/config.py
 __pycache__/
 tmp/*
 .wdm/
+.idea/
