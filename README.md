@@ -1,4 +1,4 @@
-# L4G's Upload Assistant
+# HUNO's Upload Assistant
 
 A simple tool to take the work out of uploading. Now with a Discord Bot interface for people who don't like command line!
 

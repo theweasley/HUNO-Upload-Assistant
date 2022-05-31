@@ -223,7 +223,7 @@ class HUNO():
                         desc.write("\n")
                 desc.write("[/center]")
 
-            desc.write("\n[center][url=https://hawke.uno/forums/topics/1349]Created by L4G's Upload Assistant[/url][/center]")
+            desc.write("\n[center][url=https://github.com/theweasley/HUNO-Upload-Assistant]Created by HUNO's Upload Assistant[/url][/center]")
             desc.close()
         return
 
