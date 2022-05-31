@@ -22,7 +22,7 @@ config = {
 
     "TRACKERS" : {
         # Which trackers do you want to upload to?
-        "default_trackers" : "BLU, BHD, AITHER, STC, THR",
+        "default_trackers" : "BLU, BHD, AITHER, STC, HUNO, THR",
 
         "BLU" : {
             "api_key" : "BLU api key",
@@ -142,6 +142,7 @@ config = {
                 "BHD": "🎉",
                 "AITHER": "🛫",
                 "STC": "📺",
+                "HUNO": "🍿",
                 "MANUAL" : "📩",
                 "UPLOAD" : "✅",
                 "CANCEL" : "🚫"

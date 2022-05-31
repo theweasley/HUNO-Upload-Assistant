@@ -7,6 +7,7 @@ from src.trackers.BLU import BLU
 from src.trackers.BHD import BHD
 from src.trackers.AITHER import AITHER
 from src.trackers.STC import STC
+from src.trackers.HUNO import HUNO
 import json
 from termcolor import cprint
 from pathlib import Path
@@ -224,6 +225,19 @@ async def do_the_thing(path, args, base_dir):
                 if meta['upload'] == True:
                     await stc.upload(meta)
                     await client.add_to_client(meta, "STC")
+        if tracker.upper() == "HUNO":
+            if meta['unattended']:
+                upload_to_huno = True
+            else:
+                upload_to_huno = cli_ui.ask_yes_no(f"Upload to HUNO? {debug}", default=meta['unattended'])
+            if upload_to_huno:
+                print("Uploading to HUNO")
+                huno = HUNO(config=config)
+                dupes = await huno.search_existing(meta)
+                meta = dupe_check(dupes, meta)
+                if meta['upload'] == True:
+                    await huno.upload(meta)
+                    await client.add_to_client(meta, "HUNO")
         if tracker.upper() == "THR":
             if meta['unattended']:
                 upload_to_thr = True

@@ -116,7 +116,8 @@ class HUNO():
     async def get_type_id(self, type):
         type_id = {
             'REMUX': '2',
-            'WEB': '3',
+            'WEBDL': '3',
+            'WEBRIP': '3',
             'ENCODE': '15',
             'DISC': '1',
             }.get(type, '0')
