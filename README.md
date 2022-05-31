@@ -1,4 +1,4 @@
-# L4G's Upload Assistant
+# HUNO's Upload Assistant
 
 A simple tool to take the work out of uploading. Now with a Discord Bot interface for people who don't like command line!
 
@@ -28,7 +28,7 @@ A simple tool to take the work out of uploading. Now with a Discord Bot interfac
    - Also needs MediaInfo and ffmpeg installed on your system
       - On Windows systems, ffmpeg must be added to PATH (https://windowsloop.com/install-ffmpeg-windows-10/)
       - On linux systems, get it from your favorite package manager
-   - Clone the repo to your system `git clone https://github.com/L4GSP1KE/Upload-Assistant.git`
+   - Clone the repo to your system `git clone https://github.com/theweasley/HUNO-Upload-Assistant.git`
    - Copy and Rename `data/example-config.py` to `data/config.py`
    - Edit `config.py` to use your information (more detailed information in the [wiki](https://github.com/L4GSP1KE/Upload-Assistant/wiki))
       - tmdb_api (v3) key can be obtained from https://developers.themoviedb.org/3/getting-started/introduction
