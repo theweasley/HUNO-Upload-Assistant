@@ -29,7 +29,6 @@ class HUNO():
         type_id = await self.get_type_id(meta['type'])
         resolution_id = await self.get_res_id(meta['resolution'])
         await self.edit_desc(meta)
-        huno_name = await self.edit_name(meta)
         if meta['anon'] == 0 and bool(distutils.util.strtobool(self.config['TRACKERS']['HUNO'].get('anon', "False"))) == False:
             anon = 0
         else:
@@ -45,7 +44,7 @@ class HUNO():
         open_torrent = open(f"{meta['base_dir']}/tmp/{meta['uuid']}/[HUNO]{meta['clean_name']}.torrent", 'rb')
         files = {'torrent': open_torrent}
         data = {
-            'name' : huno_name,
+            'name' : await self.get_name(meta),
             'description' : desc,
             'mediainfo' : mi_dump,
             'bdinfo' : bd_dump,
@@ -87,24 +86,88 @@ class HUNO():
             pprint(data)
         open_torrent.close()
 
+    async def get_name(self, meta):
+        # Copied from Prep.get_name() then modified to match HUNO's naming convention.
+        # It was much easier to build the name from scratch than to alter the existing name.
 
+        type = meta.get('type', "")
+        title = meta.get('title',"")
+        alt_title = meta.get('aka', "")
+        year = meta.get('year', "")
+        resolution = meta.get('resolution', "")
+        audio = meta.get('audio', "").replace("DD+", "DDP")
+        audio_lang = next(x for x in meta["mediainfo"]["media"]["track"] if x["@type"] == "Audio").get('Language_String', "English")
+        service = meta.get('service', "")
+        season = meta.get('season', "")
+        episode = meta.get('episode', "")
+        repack = meta.get('repack', "")
+        if repack.strip():
+            repack = f"[{repack}]"
+        three_d = meta.get('3D', "")
+        tag = meta.get('tag', "").replace("-", "- ")
+        source = meta.get('source', "")
+        uhd = meta.get('uhd', "")
+        hdr = meta.get('hdr', "")
+        if not hdr.strip():
+            hdr = "SDR"
+        distributor = meta.get('distributor', "")
+        if meta.get('is_disc', "") == "BDMV": #Disk
+            video_codec = meta.get('video_codec', "")
+            region = meta.get('region', "")
+        elif meta.get('is_disc', "") == "DVD":
+            region = meta.get('region', "")
+            dvd_size = meta.get('dvd_size', "")
+        else:
+            video_codec = meta.get('video_codec', "")
+            video_encode = meta.get('video_encode', "").replace(".", "")
+        edition = meta.get('edition', "")
+        search_year = meta.get('search_year', "")
+        if not search_year.strip():
+            search_year = year
 
-    async def edit_name(self, meta):
-        huno_name = meta['name']
-        with open(f"{meta.get('base_dir')}/tmp/{meta.get('uuid')}/MediaInfo.json", 'r', encoding='utf-8') as f:
-            mi = json.load(f)
+        #YAY NAMING FUN
+        if meta['category'] == "MOVIE": #MOVIE SPECIFIC
+            if type == "DISC": #Disk
+                if meta['is_disc'] == 'BDMV':
+                    name = f"{title} {alt_title} ({year}) {three_d} {edition} ({resolution} {region} {uhd} {source} {video_codec} {hdr} {audio} {audio_lang} {tag}) {repack}"
+                elif meta['is_disc'] == 'DVD': 
+                    name = f"{title} {alt_title} ({year}) {edition} {source} {dvd_size} {audio} {audio_lang} {tag}) {repack}"
+                elif meta['is_disc'] == 'HDDVD':
+                    name = f"{title} {alt_title} ({year}) {edition} {source} {audio} {audio_lang} {tag}) {repack}"
+            elif type == "REMUX" and source == "BluRay": #BluRay Remux
+                name = f"{title} {alt_title} ({year}) {three_d} {edition} ({resolution} {uhd} {source} REMUX {video_codec} {hdr} {audio} {audio_lang} {tag}) {repack}" 
+            elif type == "REMUX" and source in ("PAL DVD", "NTSC DVD"): #DVD Remux
+                name = f"{title} {alt_title} ({year}) {edition} {source} REMUX {audio} {audio_lang} {tag}) {repack}" 
+            elif type == "ENCODE": #Encode
+                name = f"{title} {alt_title} ({year}) {edition} ({resolution} {uhd} {source} {video_encode} {hdr} {audio} {audio_lang} {tag}) {repack}"  
+            elif type == "WEBDL": #WEB-DL
+                name = f"{title} {alt_title} ({year}) {edition} ({resolution} {uhd} {service} WEB-DL {video_encode} {hdr} {audio} {audio_lang} {tag}) {repack}"
+            elif type == "WEBRIP": #WEBRip
+                name = f"{title} {alt_title} ({year}) {edition} ({resolution} {uhd} {service} WEBRip {video_encode} {hdr} {audio} {audio_lang} {tag}) {repack}"
+            elif type == "HDTV": #HDTV
+                name = f"{title} {alt_title} ({year}) {edition} ({resolution} HDTV {video_encode} {audio} {audio_lang} {tag}) {repack}"
+        elif meta['category'] == "TV": #TV SPECIFIC
+            if type == "DISC": #Disk
+                if meta['is_disc'] == 'BDMV':
+                    name = f"{title} ({search_year}) {alt_title} {season}{episode} {three_d} {edition} ({resolution} {region} {uhd} {source} {video_codec} {hdr} {audio} {audio_lang} {tag}) {repack}"
+                if meta['is_disc'] == 'DVD':
+                    name = f"{title} {alt_title} {season}{episode}{three_d} {edition} {source} {dvd_size} {audio} {audio_lang} {tag}) {repack}"
+                elif meta['is_disc'] == 'HDDVD':
+                    name = f"{title} {alt_title} ({year}) {edition} {source} {audio} {audio_lang} {tag}) {repack}"
+            elif type == "REMUX" and source == "BluRay": #BluRay Remux
+                name = f"{title} ({search_year}) {alt_title} {season}{episode} {three_d} {edition} ({resolution} {uhd} {source} REMUX {video_codec} {hdr} {audio} {audio_lang} {tag}) {repack}" #SOURCE
+            elif type == "REMUX" and source in ("PAL DVD", "NTSC DVD"): #DVD Remux
+                name = f"{title} ({search_year}) {alt_title} {season}{episode} {edition} {source} REMUX {audio} {audio_lang} {tag}) {repack}" #SOURCE
+            elif type == "ENCODE": #Encode
+                name = f"{title} ({search_year}) {alt_title} {season}{episode} {edition} ({resolution} {uhd} {source} {video_encode} {hdr} {audio} {audio_lang} {tag}) {repack}" #SOURCE
+            elif type == "WEBDL": #WEB-DL
+                name = f"{title} ({search_year}) {alt_title} {season}{episode} {edition} ({resolution} {uhd} {service} WEB-DL {video_encode} {hdr} {audio} {audio_lang} {tag}) {repack}"
+            elif type == "WEBRIP": #WEBRip
+                name = f"{title} ({search_year}) {alt_title} {season}{episode} {edition} ({resolution} {uhd} {service} WEBRip {video_encode} {hdr} {audio} {audio_lang} {tag}) {repack}"
+            elif type == "HDTV": #HDTV
+                name = f"{title} ({search_year}) {alt_title} {season}{episode} {edition} ({resolution} HDTV {video_encode} {audio} {audio_lang} {tag}) {repack}"
 
-        has_eng_audio = False
-        for track in mi['media']['track']:
-            if track['@type'] == "Audio":
-                if track.get('Language', 'None') == 'en':
-                    has_eng_audio = True
-        if not has_eng_audio:
-            audio_lang = mi['media']['track'][2].get('Language_String', "").upper()
-            huno_name = huno_name.replace(meta['resolution'], f"{audio_lang} {meta['resolution']}")
-
-        huno_name = huno_name.replace(meta['video_encode'], meta['video_encode'].replace('.', ''))
-        return huno_name
+        return ' '.join(name.split())
 
     async def get_cat_id(self, category_name):
         category_id = {
