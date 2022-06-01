@@ -48,7 +48,8 @@ config = {
         "HUNO" : {
             "api_key" : "HUNO api key",
             "announce_url" : "https://hawke.uno/announce/customannounceurl",
-            # "anon" : "False"
+            # "anon" : "False",
+            # "internal" : "False"
         },
         "THR" : {
             "username" : "username",

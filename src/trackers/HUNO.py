@@ -6,7 +6,7 @@ import requests
 from difflib import SequenceMatcher
 from termcolor import cprint
 import distutils.util
-import json
+import os
 from pprint import pprint
 
 # from pprint import pprint
@@ -33,6 +33,10 @@ class HUNO():
             anon = 0
         else:
             anon = 1
+        if bool(distutils.util.strtobool(self.config['TRACKERS']['HUNO'].get('internal', "False"))) == False:
+            internal = 0
+        else:
+            internal = 1            
 
         if meta['bdinfo'] != None:
             mi_dump = None
@@ -57,10 +61,11 @@ class HUNO():
             'mal' : meta['mal_id'],
             'igdb' : 0,
             'anonymous' : anon,
-            'stream' : meta['stream'],
+            'stream' : await self.is_plex_friendly(meta),
             'sd' : meta['sd'],
             'keywords' : meta['keywords'],
-            # 'internal' : 0,
+            'internal' : internal,
+            'season_pack': await self.is_season_pack(meta),
             # 'featured' : 0,
             # 'free' : 0,
             # 'double_up' : 0,
@@ -200,6 +205,36 @@ class HUNO():
             '480i': '9'
             }.get(resolution, '10')
         return resolution_id
+
+    async def is_plex_friendly(self, meta):
+        lossy_audio_codecs = ["AAC", "DD", "DD+", "OPUS"]
+
+        if any(l in meta["audio"] for l in lossy_audio_codecs):
+            return 1
+
+        return 0
+
+    async def is_season_pack(self, meta):
+        if meta["category"] == "TV" and os.path.isdir(meta["path"]):
+            ignored_directory_terms = ["extras", "featurettes", "sample"]
+            ignored_file_terms = ["sample"]
+            video_file_extensions = [".avi", ".flv", ".m4v", ".mkv", ".mp4", ".mpeg", ".rm", ".ts"]
+            video_files = []
+
+            for (dir_path, _, file_names) in os.walk(meta["path"]):
+                if os.path.basename(dir_path).lower() in ignored_directory_terms:
+                    continue
+                for f in file_names:
+                    if any(i in f.lower() for i in ignored_file_terms):
+                        continue
+                    if not any(f.lower().endswith(e) for e in video_file_extensions):
+                        continue
+                    video_files.append(f)
+
+            if len(video_files) > 1:
+                return 1
+
+        return 0
 
     async def edit_torrent(self, meta):
         HUNO_torrent = Torrent.read(f"{meta['base_dir']}/tmp/{meta['uuid']}/BASE.torrent")
