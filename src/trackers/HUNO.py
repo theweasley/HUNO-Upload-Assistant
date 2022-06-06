@@ -127,7 +127,7 @@ class HUNO():
             video_encode = meta.get('video_encode', "").replace(".", "")
         edition = meta.get('edition', "")
         search_year = meta.get('search_year', "")
-        if not search_year.strip():
+        if not str(search_year).strip():
             search_year = year
 
         #YAY NAMING FUN
