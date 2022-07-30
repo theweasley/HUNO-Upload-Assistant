@@ -1055,7 +1055,7 @@ class Prep():
             "Atmos Audio": " Atmos",
         }
         format_settings_extra = {
-            "Dolby Surround EX" : "EX"
+            # "Dolby Surround EX" : "EX"
         }
 
         commercial_names = {
